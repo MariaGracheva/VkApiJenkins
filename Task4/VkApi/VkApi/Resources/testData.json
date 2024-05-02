@@ -1,0 +1,8 @@
+{
+  "application": {
+    "loginForTextbox": "",
+    "passwordForTextBox": "",
+    "textForPostOnWallLength": 10,
+    "uploadFilePath": "Resources\\cat.jpg"
+  }
+}
