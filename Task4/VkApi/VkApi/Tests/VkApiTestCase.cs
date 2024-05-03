@@ -32,10 +32,10 @@ namespace VkApi.Tests
             Assert.IsTrue(MainPage.State.WaitForDisplayed(), $"The page '{nameof(MainPage)}' is not displayed");
 
             AqualityServices.Logger.Info("Шаг 2. [UI] Авторизоваться.");
-            MainPage.InputLoginInTextBox(TestContext.Parameters["LOGIN_FOR_TEXTBOX"]);
+            MainPage.InputLoginInTextBox(Environment.GetEnvironmentVariable("LOGIN_FOR_TEXTBOX"));
             MainPage.ClickOnSignInButton();
             EnterPasswordPage.State.WaitForDisplayed();
-            EnterPasswordPage.InputPasswordInTextBox(TestContext.Parameters["PASSWORD_FOR_TEXTBOX"]);
+            EnterPasswordPage.InputPasswordInTextBox(Environment.GetEnvironmentVariable("PASSWORD_FOR_TEXTBOX");
             EnterPasswordPage.ClickOnContinueButton();
             Assert.IsTrue(NewsPage.State.WaitForDisplayed(), $"The page '{nameof(NewsPage)}' is not displayed");
 
