@@ -2,10 +2,21 @@
 using Framework.Constants;
 using Framework.TestData;
 using Framework.Utils;
+using Newtonsoft.Json;
 using VkApi.Pages;
 
 namespace VkApi.Tests
 {
+    public class Config
+    {
+        public string LoginForTextbox { get; set; }
+        public string PasswordForTextBox { get; set; }
+        public string OwnerId { get; set; }
+        public string AccessToken { get; set; }
+        public int TextForPostOnWallLength { get; set; }
+        public string UploadFilePath { get; set; }
+    }
+
     [NUnit.Extension.DependencyInjection.DependencyInjectingTestFixture]
     public class VkApiTestCase : BaseTest
     {
@@ -28,14 +39,32 @@ namespace VkApi.Tests
         [Test]
         public void Test()
         {
+            string configFilePath = Environment.GetEnvironmentVariable("CONFIG_FILE_testData_PATH");
+
+
+            if (!string.IsNullOrEmpty(configFilePath))
+            {
+                Console.WriteLine("Путь к конфигурационному файлу: " + configFilePath);
+            }
+            else
+            {
+                Console.WriteLine("Путь к конфигурационному файлу не найден.");
+            }
+            string configFileContent = File.ReadAllText(configFilePath);
+
+            var config = JsonConvert.DeserializeObject<Config>(configFileContent);
+
+            string login = config.LoginForTextbox;
+            string password = config.PasswordForTextBox;
+
             AqualityServices.Logger.Info("Шаг 1. [UI] Перейти на сайт https://vk.com/");
             Assert.IsTrue(MainPage.State.WaitForDisplayed(), $"The page '{nameof(MainPage)}' is not displayed");
 
             AqualityServices.Logger.Info("Шаг 2. [UI] Авторизоваться.");
-            MainPage.InputLoginInTextBox(Environment.GetEnvironmentVariable("LOGIN_FOR_TEXTBOX"));
+            MainPage.InputLoginInTextBox(login);
             MainPage.ClickOnSignInButton();
             EnterPasswordPage.State.WaitForDisplayed();
-            EnterPasswordPage.InputPasswordInTextBox(Environment.GetEnvironmentVariable("PASSWORD_FOR_TEXTBOX"));
+            EnterPasswordPage.InputPasswordInTextBox(password);
             EnterPasswordPage.ClickOnContinueButton();
             Assert.IsTrue(NewsPage.State.WaitForDisplayed(), $"The page '{nameof(NewsPage)}' is not displayed");
 
