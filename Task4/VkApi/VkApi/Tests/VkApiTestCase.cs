@@ -35,7 +35,7 @@ namespace VkApi.Tests
             MainPage.InputLoginInTextBox(Environment.GetEnvironmentVariable("LOGIN_FOR_TEXTBOX"));
             MainPage.ClickOnSignInButton();
             EnterPasswordPage.State.WaitForDisplayed();
-            EnterPasswordPage.InputPasswordInTextBox(Environment.GetEnvironmentVariable("PASSWORD_FOR_TEXTBOX");
+            EnterPasswordPage.InputPasswordInTextBox(Environment.GetEnvironmentVariable("PASSWORD_FOR_TEXTBOX"));
             EnterPasswordPage.ClickOnContinueButton();
             Assert.IsTrue(NewsPage.State.WaitForDisplayed(), $"The page '{nameof(NewsPage)}' is not displayed");
 
