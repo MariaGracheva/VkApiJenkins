@@ -2,6 +2,8 @@
   "application": {
     "loginForTextbox": "",
     "passwordForTextBox": "",
+    "owner_id": "",
+    "access_token": "",
     "textForPostOnWallLength": 10,
     "uploadFilePath": "Resources\\cat.jpg"
   }

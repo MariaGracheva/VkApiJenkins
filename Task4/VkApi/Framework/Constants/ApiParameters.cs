@@ -1,12 +1,14 @@
-﻿namespace Framework.Constants
+﻿using Framework.TestData;
+
+namespace Framework.Constants
 {
     public static class ApiParameters
     {
         public static Dictionary<string, string> CommonParameters = new()
         {
             {"v", "5.199"},
-            {"owner_id", ""},
-            {"access_token", ""}
+            {"owner_id", TestDataManager.GetValue<string>("owner_id")},
+            {"access_token", TestDataManager.GetValue<string>("access_token")}
         };
 
         public static string OwnerId => CommonParameters.FirstOrDefault(x => x.Key == "owner_id").Value;
