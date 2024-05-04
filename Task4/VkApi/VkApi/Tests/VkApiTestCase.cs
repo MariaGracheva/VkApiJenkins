@@ -7,15 +7,6 @@ using VkApi.Pages;
 
 namespace VkApi.Tests
 {
-    public class Config
-    {
-        public string LoginForTextbox { get; set; }
-        public string PasswordForTextBox { get; set; }
-        public string OwnerId { get; set; }
-        public string AccessToken { get; set; }
-        public int TextForPostOnWallLength { get; set; }
-        public string UploadFilePath { get; set; }
-    }
 
     [NUnit.Extension.DependencyInjection.DependencyInjectingTestFixture]
     public class VkApiTestCase : BaseTest
@@ -39,32 +30,14 @@ namespace VkApi.Tests
         [Test]
         public void Test()
         {
-            string configFilePath = Environment.GetEnvironmentVariable("CONFIG_FILE_testData_PATH");
-
-
-            if (!string.IsNullOrEmpty(configFilePath))
-            {
-                Console.WriteLine("Путь к конфигурационному файлу: " + configFilePath);
-            }
-            else
-            {
-                Console.WriteLine("Путь к конфигурационному файлу не найден.");
-            }
-            string configFileContent = File.ReadAllText(configFilePath);
-
-            var config = JsonConvert.DeserializeObject<Config>(configFileContent);
-
-            string login = config.LoginForTextbox;
-            string password = config.PasswordForTextBox;
-
             AqualityServices.Logger.Info("Шаг 1. [UI] Перейти на сайт https://vk.com/");
             Assert.IsTrue(MainPage.State.WaitForDisplayed(), $"The page '{nameof(MainPage)}' is not displayed");
 
             AqualityServices.Logger.Info("Шаг 2. [UI] Авторизоваться.");
-            MainPage.InputLoginInTextBox(login);
+            MainPage.InputLoginInTextBox(Environment.GetEnvironmentVariable("login"));
             MainPage.ClickOnSignInButton();
             EnterPasswordPage.State.WaitForDisplayed();
-            EnterPasswordPage.InputPasswordInTextBox(password);
+            EnterPasswordPage.InputPasswordInTextBox(Environment.GetEnvironmentVariable("password"));
             EnterPasswordPage.ClickOnContinueButton();
             Assert.IsTrue(NewsPage.State.WaitForDisplayed(), $"The page '{nameof(NewsPage)}' is not displayed");
 
@@ -78,8 +51,9 @@ namespace VkApi.Tests
             var postId = postResponse.Response.PostId;
 
             AqualityServices.Logger.Info("Шаг 5.[UI] Убедиться, что на стене появилась запись с нужным текстом от правильного пользователя.");
-            Assert.That(ProfilePage.GetPostElementText(postId.ToString(), ApiParameters.OwnerId).Contains(textForPostOnWall),
-                Is.True, "The post is not displayed or doesn't contain the expected text");
+            // Assert.That(ProfilePage.GetPostElementText(postId.ToString(), ApiParameters.OwnerId).Contains(textForPostOnWall),
+            Assert.That(ProfilePage.GetPostElementText(postId.ToString(), Environment.GetEnvironmentVariable("owner_id")).Contains(textForPostOnWall),
+                 Is.True, "The post is not displayed or doesn't contain the expected text");
 
             AqualityServices.Logger.Info("Шаг 6.[API] Отредактировать запись - изменить текст и добавить любую картинку.");
             var updatedTextForPostOnWall = RandomUtil.GenerateRandomString(TestDataManager.TextForPostOnWallLength);
@@ -87,7 +61,8 @@ namespace VkApi.Tests
 
             AqualityServices.Logger.Info("Шаг 7.[UI] Убедиться, что изменился текст сообщения и добавилась загруженная картинка.");
             Assert.That(textForPostOnWall, Is.Not.EqualTo(updatedTextForPostOnWall), "The original text is not equal updated text");
-            Assert.IsTrue(ProfilePage.PhotoOnWallIsDisplayed(photoId, ApiParameters.OwnerId, postId), $"Photo with id {photoId} is not displayed");
+            //Assert.IsTrue(ProfilePage.PhotoOnWallIsDisplayed(photoId, ApiParameters.OwnerId, postId), $"Photo with id {photoId} is not displayed");
+            Assert.IsTrue(ProfilePage.PhotoOnWallIsDisplayed(photoId, Environment.GetEnvironmentVariable("owner_id"), postId), $"Photo with id {photoId} is not displayed");
 
             AqualityServices.Logger.Info("Шаг 8.[API] Добавить комментарий к записи со случайным текстом.");
             var textForComment = RandomUtil.GenerateRandomString(TestDataManager.TextForPostOnWallLength);
@@ -96,12 +71,12 @@ namespace VkApi.Tests
             var comment = VkApiUtils.GetComment(postedComment.Response.CommentId);
 
             AqualityServices.Logger.Info("Шаг 9.[UI] Убедиться, что к нужной записи добавился комментарий от правильного пользователя.");
-            Assert.IsTrue(ProfilePage.PostElementIsDisplayed(comment.Id.ToString(), ApiParameters.OwnerId), $"The comment with id {comment.Id} is not displayed");
-            Assert.IsTrue(ProfilePage.CommentFromOwnerUserIsDisplayed(comment.Id.ToString(), ApiParameters.OwnerId),
-                $"The comment from {ApiParameters.OwnerId} is not displayed");
+            Assert.IsTrue(ProfilePage.PostElementIsDisplayed(comment.Id.ToString(), Environment.GetEnvironmentVariable("owner_id")), $"The comment with id {comment.Id} is not displayed");
+            Assert.IsTrue(ProfilePage.CommentFromOwnerUserIsDisplayed(comment.Id.ToString(), Environment.GetEnvironmentVariable("owner_id")),
+                $"The comment from {Environment.GetEnvironmentVariable("owner_id")} is not displayed");
 
             AqualityServices.Logger.Info("Шаг 10.[UI] Через UI оставить лайк к записи.");
-            ProfilePage.ClickOnLikeOnPostButton(postId.ToString(), ApiParameters.OwnerId);
+            ProfilePage.ClickOnLikeOnPostButton(postId.ToString(), Environment.GetEnvironmentVariable("owner_id"));
 
             AqualityServices.Logger.Info("Шаг 11.[API] Через запрос к API убедиться, что у записи появился лайк от правильного пользователя.");
             var countLikesOfOwnerUser = VkApiUtils.GetLikeOnPost(postId).Response.Liked;
@@ -111,7 +86,7 @@ namespace VkApi.Tests
             VkApiUtils.DeletePost(postId);
 
             AqualityServices.Logger.Info("Шаг 13.[UI] Не обновляя страницу убедиться, что запись удалена.");
-            Assert.IsTrue(ProfilePage.PostOnWallIsNotDisplayed(postId.ToString(), ApiParameters.OwnerId), $"post {postId} is not deleted");
+            Assert.IsTrue(ProfilePage.PostOnWallIsNotDisplayed(postId.ToString(), Environment.GetEnvironmentVariable("owner_id")), $"post {postId} is not deleted");
         }
     }
 }

@@ -7,8 +7,11 @@ namespace Framework.Constants
         public static Dictionary<string, string> CommonParameters = new()
         {
             {"v", "5.199"},
-            {"owner_id", TestDataManager.GetValue<string>("owner_id")},
-            {"access_token", TestDataManager.GetValue<string>("access_token")}
+            //{"owner_id", TestDataManager.GetValue<string>("owner_id")},
+            {"owner_id", Environment.GetEnvironmentVariable("owner_id")},
+            
+            //{"access_token", TestDataManager.GetValue<string>("access_token")}
+            {"access_token", Environment.GetEnvironmentVariable("access_token")}
         };
 
         public static string OwnerId => CommonParameters.FirstOrDefault(x => x.Key == "owner_id").Value;
