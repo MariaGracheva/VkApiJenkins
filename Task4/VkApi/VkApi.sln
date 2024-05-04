@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkApi", "VkApi\VkApi.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework", "Framework\Framework.csproj", "{C7503988-6D10-4EB5-AE8D-C886DA452B50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "Console\Console.csproj", "{5C980EE8-A387-4425-BBBA-2FD3759B768F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{C7503988-6D10-4EB5-AE8D-C886DA452B50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7503988-6D10-4EB5-AE8D-C886DA452B50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7503988-6D10-4EB5-AE8D-C886DA452B50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C980EE8-A387-4425-BBBA-2FD3759B768F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C980EE8-A387-4425-BBBA-2FD3759B768F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C980EE8-A387-4425-BBBA-2FD3759B768F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C980EE8-A387-4425-BBBA-2FD3759B768F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
