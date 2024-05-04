@@ -46,7 +46,7 @@ namespace VkApi.Tests
             Assert.IsTrue(ProfilePage.State.WaitForDisplayed(), $"The page '{nameof(ProfilePage)}' is not displayed");
 
             AqualityServices.Logger.Info("Шаг 4.[API] Cоздать запись со случайно сгенерированным текстом на стене.");
-            var textForPostOnWall = RandomUtil.GenerateRandomString(TestDataManager.TextForPostOnWallLength);
+            var textForPostOnWall = RandomUtil.GenerateRandomString(10);
             var postResponse = VkApiUtils.PostOnWall(textForPostOnWall);
             var postId = postResponse.Response.PostId;
 
