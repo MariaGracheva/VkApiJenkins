@@ -1,8 +1,6 @@
 ﻿using Aquality.Selenium.Browsers;
-using Framework.Constants;
 using Framework.TestData;
 using Framework.Utils;
-using Newtonsoft.Json;
 using VkApi.Pages;
 
 namespace VkApi.Tests
@@ -51,7 +49,6 @@ namespace VkApi.Tests
             var postId = postResponse.Response.PostId;
 
             AqualityServices.Logger.Info("Шаг 5.[UI] Убедиться, что на стене появилась запись с нужным текстом от правильного пользователя.");
-            // Assert.That(ProfilePage.GetPostElementText(postId.ToString(), ApiParameters.OwnerId).Contains(textForPostOnWall),
             Assert.That(ProfilePage.GetPostElementText(postId.ToString(), Environment.GetEnvironmentVariable("owner_id")).Contains(textForPostOnWall),
                  Is.True, "The post is not displayed or doesn't contain the expected text");
 
@@ -61,7 +58,6 @@ namespace VkApi.Tests
 
             AqualityServices.Logger.Info("Шаг 7.[UI] Убедиться, что изменился текст сообщения и добавилась загруженная картинка.");
             Assert.That(textForPostOnWall, Is.Not.EqualTo(updatedTextForPostOnWall), "The original text is not equal updated text");
-            //Assert.IsTrue(ProfilePage.PhotoOnWallIsDisplayed(photoId, ApiParameters.OwnerId, postId), $"Photo with id {photoId} is not displayed");
             Assert.IsTrue(ProfilePage.PhotoOnWallIsDisplayed(photoId, Environment.GetEnvironmentVariable("owner_id"), postId), $"Photo with id {photoId} is not displayed");
 
             AqualityServices.Logger.Info("Шаг 8.[API] Добавить комментарий к записи со случайным текстом.");
