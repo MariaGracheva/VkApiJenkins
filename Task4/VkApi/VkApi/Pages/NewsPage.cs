@@ -13,7 +13,6 @@ namespace VkApi.Pages
 
         public void ClickOnProfileButton()
         {
-            AqualityServices.Browser.Refresh();
             ProfileButton.WaitAndClick();
         }
     }
