@@ -1,4 +1,5 @@
-﻿using Aquality.Selenium.Elements.Interfaces;
+﻿using Aquality.Selenium.Browsers;
+using Aquality.Selenium.Elements.Interfaces;
 using Aquality.Selenium.Forms;
 using OpenQA.Selenium;
 
@@ -13,6 +14,7 @@ namespace VkApi.Pages
 
         public void InputPasswordInTextBox(string password)
         {
+            AqualityServices.Browser.Refresh();
             PasswordTextBox.State.WaitForEnabled();
             PasswordTextBox.ClearAndType(password);
         }
